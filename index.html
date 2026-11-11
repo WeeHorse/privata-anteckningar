@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="sv">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Privata anteckningar</title>
+  </head>
+  <body>
+    <h1>Privata anteckningar</h1>
+    <p>Demo: inloggning → API → RLS. Radering kräver MFA.</p>
+    <label>E-post <input id="email" type="email" autocomplete="username"></label>
+    <label>Lösenord <input id="password" type="password" autocomplete="current-password"></label>
+    <button id="login">Logga in</button>
+    <button id="google">Logga in med Google</button>
+    <button id="logout">Logga ut här</button>
+    <hr>
+    <label>Anteckning <input id="body" maxlength="500"></label>
+    <button id="create">Skapa</button>
+    <button id="load">Läs mina anteckningar</button>
+    <label>ID att radera <input id="noteId"></label>
+    <button id="remove">Radera</button>
+    <h2>MFA</h2>
+    <button id="enroll">Registrera TOTP en gång</button>
+    <p>Skanna QR-koden i din autentiseringsapp. Dela den inte.</p>
+    <img id="qr" alt="QR-kod för registrering av MFA" hidden>
+    <label>Aktuell TOTP-kod <input id="code" inputmode="numeric" autocomplete="one-time-code"></label>
+    <button id="verify">Verifiera MFA</button>
+    <h2>Resultat</h2>
+    <pre id="output" aria-live="polite"></pre>
+    <script type="module" src="/main.js"></script>
+  </body>
+</html>

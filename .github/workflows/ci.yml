@@ -1,0 +1,35 @@
+name: Test, build and SCA
+on:
+  push:
+    branches: [main]
+  pull_request:
+  schedule:
+    - cron: '0 6 * * 1'
+permissions:
+  contents: read
+jobs:
+  test-build-sca:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      # Bootstrap utan låsfil; använd npm ci när låsfilen har checkats in.
+      - name: Install dependencies
+        run: |
+          if [ -f package-lock.json ]; then
+            npm ci
+          else
+            npm install
+          fi
+      - run: npm test
+      - name: Syntax check
+        run: |
+          node --check api/notes.js
+          node --check main.js
+      - run: npm audit --audit-level=high
+      - run: npm run build
+        env:
+          VITE_SUPABASE_URL: ${{ vars.VITE_SUPABASE_URL || 'https://example.supabase.co' }}
+          VITE_SUPABASE_PUBLISHABLE_KEY: ${{ vars.VITE_SUPABASE_PUBLISHABLE_KEY || 'sb_publishable_ci_placeholder' }}
